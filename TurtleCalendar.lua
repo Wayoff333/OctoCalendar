@@ -87,6 +87,7 @@ TurtleCalendar.raids = {
 	[ m.T[ "Lower Karazhan Halls" ] ] = "kara",
 	[ m.T[ "Zul'Gurub" ] ] = "zg",
 	[ m.T[ "Ruins of Ahn'Qiraj" ] ] = "zg",
+	[ m.T[ "Timbermaw Hold" ] ] = "zg",
 }
 
 TurtleCalendar.quests = {
@@ -908,7 +909,7 @@ function TurtleCalendar.create_frame()
 		name = m.T[ "Raid" ] .. " 20",
 		background = m.images[ "zg" ],
 		header = m.T[ "Raid" ] .. " 20",
-		sub1 = "ZG/AQ20",
+		sub1 = "ZG/AQ20/TMH",
 		sub2 = string.format( m.T[ "Resets every %d days" ], 3 ),
 		width = bw,
 		height = bh
@@ -1143,7 +1144,7 @@ function TurtleCalendar.refresh()
 		for _, v in ipairs( { "raid40", "zg" } ) do
 			if m.boxes[ v ].is_visible then
 				local _, count = string.gsub( m.boxes[ v ].inst_name:GetText() or "", "\n", "\n" )
-				if v == "raid40" and count == 6 or v == "zg" and count == 2 then
+				if v == "raid40" and count == 6 or v == "zg" and count == 3 then
 					m.set_box_bg( m.boxes[ v ], "UI-Border-Red.tga", 0.2 )
 				end
 			end
