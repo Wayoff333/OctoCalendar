@@ -55,6 +55,7 @@ TurtleCalendar.images = {
 	[ "bg_arathi" ] = { image = "Interface\\AddOns\\TurtleCalendar\\assets\\bg_arathi.blp", height = 208 / 256 },
 	[ "bg_bra" ] = { image = "Interface\\AddOns\\TurtleCalendar\\assets\\bg_bra.blp", height = 208 / 256 },
 	[ "bg_sgv" ] = { image = "Interface\\AddOns\\TurtleCalendar\\assets\\bg_sgv.blp", height = 208 / 256 },
+	[ "bg_tg" ] = { image = "Interface\\AddOns\\TurtleCalendar\\assets\\bg_tg.blp", height = 208 / 256 },
 	[ "eom_grilek" ] = { image = "Interface\\AddOns\\TurtleCalendar\\assets\\eom_grilek.blp", height = 1 },
 	[ "eom_hazzarah" ] = { image = "Interface\\AddOns\\TurtleCalendar\\assets\\eom_hazzarah.blp", height = 1 },
 	[ "eom_renataki" ] = { image = "Interface\\AddOns\\TurtleCalendar\\assets\\eom_renataki.blp", height = 1 },
@@ -66,7 +67,8 @@ TurtleCalendar.bgs = {
 	[ 2 ] = { id = "wg", name = m.T[ "Warsong Gulch" ] },
 	[ 3 ] = { id = "arathi", name = m.T[ "Arathi Basin" ] },
 	[ 4 ] = { id = "bra", name = m.T[ "Blood Ring Arena" ] },
-	[ 5 ] = { id = "sgv", name = m.T[ "Sunnyglade Valley" ] }
+	[ 5 ] = { id = "tg", name = m.T[ "Thorn Gorge" ] }
+	--[ 5 ] = { id = "sgv", name = m.T[ "Sunnyglade Valley" ] }
 }
 
 TurtleCalendar.eom = {
