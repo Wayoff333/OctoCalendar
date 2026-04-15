@@ -45,6 +45,7 @@ TurtleCalendar.images = {
 	[ "ony" ] = { image = "Interface\\AddOns\\TurtleCalendar\\assets\\ony.blp", height = 276 / 512 },
 	[ "kara" ] = { image = "Interface\\AddOns\\TurtleCalendar\\assets\\kara.blp", height = 276 / 512 },
 	[ "zg" ] = { image = "Interface\\AddOns\\TurtleCalendar\\assets\\zg.blp", height = 276 / 512 },
+	[ "tmh" ] = { image = "Interface\\AddOns\\TurtleCalendar\\assets\\tmh.blp", height = 276 / 512 },
 	[ "eom" ] = { image = "Interface\\AddOns\\TurtleCalendar\\assets\\eom.blp", height = 276 / 512 },
 	[ "instances" ] = { image = "Interface\\AddOns\\TurtleCalendar\\assets\\instances.blp", height = 276 / 512 },
 	[ "instances2" ] = { image = "Interface\\AddOns\\TurtleCalendar\\assets\\instances2.blp", height = 208 / 256 },
@@ -89,7 +90,7 @@ TurtleCalendar.raids = {
 	[ m.T[ "Lower Karazhan Halls" ] ] = "kara",
 	[ m.T[ "Zul'Gurub" ] ] = "zg",
 	[ m.T[ "Ruins of Ahn'Qiraj" ] ] = "zg",
-	[ m.T[ "Timbermaw Hold" ] ] = "zg",
+	[ m.T[ "Timbermaw Hold" ] ] = "tmh",
 }
 
 TurtleCalendar.quests = {
@@ -106,6 +107,7 @@ function TurtleCalendar:init()
 			[ "ony" ] = { interval = 5, anchor = m.time_utc( { year = 2025, month = 9, day = 1, hour = 3 } ) },
 			[ "kara" ] = { interval = 5, anchor = m.time_utc( { year = 2025, month = 9, day = 2, hour = 3 } ) },
 			[ "zg" ] = { interval = 3, anchor = m.time_utc( { year = 2025, month = 8, day = 30, hour = 3 } ) },
+			[ "tmh" ] = { interval = 7, anchor = m.time_utc( { year = 2025, month = 8, day = 29, hour = 3 } ) },
 			[ "eom" ] = { interval = 14, anchor = m.time_utc( { year = 2025, month = 4, day = 7, hour = 23 } ) },
 			[ "bg" ] = { interval = 1, anchor = m.time_utc( { year = 2025, month = 9, day = 0, hour = 23 } ) },
 			[ "dmf" ] = { interval = 7, anchor = m.time_utc( { year = 2025, month = 8, day = 30, hour = 23 } ) }
@@ -115,6 +117,7 @@ function TurtleCalendar:init()
 			[ "ony" ] = { interval = 5, anchor = m.time_utc( { year = 2025, month = 9, day = 0, hour = 3 } ) },
 			[ "kara" ] = { interval = 5, anchor = m.time_utc( { year = 2025, month = 9, day = 0, hour = 3 } ) },
 			[ "zg" ] = { interval = 3, anchor = m.time_utc( { year = 2025, month = 8, day = 28, hour = 3 } ) },
+			[ "tmh" ] = { interval = 7, anchor = m.time_utc( { year = 2025, month = 8, day = 27, hour = 3 } ) },
 			[ "eom" ] = { interval = 14, anchor = m.time_utc( { year = 2025, month = 4, day = 7, hour = 23 } ) },
 			[ "bg" ] = { interval = 1, anchor = m.time_utc( { year = 2025, month = 9, day = 0, hour = 23 } ) },
 			[ "dmf" ] = { interval = 7, anchor = m.time_utc( { year = 2025, month = 8, day = 30, hour = 23 } ) }
@@ -124,6 +127,7 @@ function TurtleCalendar:init()
 			[ "ony" ] = { interval = 5, anchor = m.time_utc( { year = 2025, month = 9, day = 1, hour = 3 } ) },
 			[ "kara" ] = { interval = 5, anchor = m.time_utc( { year = 2025, month = 9, day = 2, hour = 3 } ) },
 			[ "zg" ] = { interval = 3, anchor = m.time_utc( { year = 2025, month = 8, day = 30, hour = 3 } ) },
+			[ "tmh" ] = { interval = 7, anchor = m.time_utc( { year = 2025, month = 8, day = 29, hour = 3 } ) },
 			[ "eom" ] = { interval = 14, anchor = m.time_utc( { year = 2025, month = 4, day = 7, hour = 23 } ) },
 			[ "bg" ] = { interval = 1, anchor = m.time_utc( { year = 2025, month = 9, day = 0, hour = 23 } ) },
 			[ "dmf" ] = { interval = 7, anchor = m.time_utc( { year = 2025, month = 8, day = 30, hour = 23 } ) }
@@ -176,6 +180,10 @@ function TurtleCalendar.events.PLAYER_LOGIN()
 		[ 7 ] = { "dmf", true },
 		[ 8 ] = { "instances", true }
 	}
+
+	if (not m.find( "tmh", m.db.boxes, 1 )) then
+		table.insert( m.db.boxes, 5, { "tmh", true } )
+	end
 
 	-- Global DB
 	TurtleCalendarGlobalOptions = TurtleCalendarGlobalOptions or {}
@@ -819,7 +827,7 @@ function TurtleCalendar.create_frame()
 	-- Character dropdown
 	local chars = 0
 	for player in pairs( m.gdb.lockouts[ m.realm ] ) do
-		if player ~= m.player and next(m.gdb.lockouts[ m.realm ][ player ]) then chars = chars + 1 end
+		if player ~= m.player and next( m.gdb.lockouts[ m.realm ][ player ] ) then chars = chars + 1 end
 	end
 
 	if chars > 0 then
@@ -838,7 +846,7 @@ function TurtleCalendar.create_frame()
 			}
 
 			for player in pairs( m.gdb.lockouts[ m.realm ] ) do
-				if player == m.player or next(m.gdb.lockouts[ m.realm ][ player ]) then
+				if player == m.player or next( m.gdb.lockouts[ m.realm ][ player ] ) then
 					info.text = player
 					info.value = player
 					info.arg1 = player
@@ -911,12 +919,23 @@ function TurtleCalendar.create_frame()
 		name = m.T[ "Raid" ] .. " 20",
 		background = m.images[ "zg" ],
 		header = m.T[ "Raid" ] .. " 20",
-		sub1 = "ZG/AQ20/TMH",
+		sub1 = "ZG/AQ20",
 		sub2 = string.format( m.T[ "Resets every %d days" ], 3 ),
 		width = bw,
 		height = bh
 	} )
 	m.boxes.zg:SetPoint( "TopLeft", m.boxes.kara, "TopRight", 5, 0 )
+
+	m.boxes.tmh = m.create_box( content, {
+		id = "tmh",
+		name = m.T[ "Timbermaw Hold" ],
+		background = m.images[ "tmh" ],
+		header = m.T[ "Timbermaw\nHold" ],
+		sub2 = string.format( m.T[ "Resets every %d days" ], 7 ),
+		width = bw,
+		height = bh
+	} )
+	m.boxes.tmh:SetPoint( "TopLeft", m.boxes.zg, "TopRight", 5, 0 )
 
 	m.boxes.eom = m.create_box( content, {
 		id = "eom",
@@ -928,7 +947,7 @@ function TurtleCalendar.create_frame()
 		width = bw,
 		height = bh
 	} )
-	m.boxes.eom:SetPoint( "TopLeft", m.boxes.zg, "TopRight", 5, 0 )
+	m.boxes.eom:SetPoint( "TopLeft", m.boxes.tmh, "TopRight", 5, 0 )
 
 	m.boxes.bg = m.create_box( content, {
 		id = "bg",
@@ -1104,7 +1123,7 @@ function TurtleCalendar.refresh()
 	m.sday = m.server_day_number()
 
 	-- Raids
-	for _, v in ipairs( { "raid40", "zg", "ony", "kara" } ) do
+	for _, v in ipairs( { "raid40", "zg", "ony", "kara", "tmh" } ) do
 		---@type BoxFrame
 		local box = m.boxes[ v ]
 		box.inst_name:SetText( "" )
@@ -1261,7 +1280,7 @@ function TurtleCalendar.popup_initialize( level )
 		}
 
 		for i, box in ipairs( m.db.boxes ) do
-			if i == 6 then
+			if i == 7 then
 				UIDropDownMenu_AddButton( { isTitle = true, notCheckable = true, text = m.T[ "Misc" ] } )
 			end
 			info.text = m.boxes[ box[ 1 ] ].data.name
@@ -1322,88 +1341,93 @@ function TurtleCalendar.on_resize()
 end
 
 function TurtleCalendar.reorder()
-	-- This really needs refactoring
-	local pos = 1
 	local prev_box
-	local line1
-	local line2
 	local top = 0
+	local vis_boxes = {}
+	local vis_small = 0
+	local vis_big = 0
+	local vis_dynamic = 0
 
 	if m.db.show_world_buffs then
 		top = -35
 	end
 
-	for i, box_info in ipairs( m.db.boxes ) do
+	for _, box_info in ipairs( m.db.boxes ) do
 		---@type BoxFrame
 		local box = m.boxes[ box_info[ 1 ] ]
-
 		box.set_visibility( box_info[ 2 ] )
+
 		if box_info[ 2 ] then
-			if i <= 5 then
-				if pos == 1 then
-					box:SetPoint( "TopLeft", m.popup.content, "TopLeft", 0, top )
-					line1 = 1
-				else
-					box:SetPoint( "TopLeft", prev_box, "TopRight", 5, 0 )
-					line1 = line1 + 1
-				end
+			table.insert(vis_boxes, box)
+			if box_info[ 1 ] == "bg" or box_info[ 1 ] == "dmf" then
+				vis_big = vis_big + 1
+			elseif box_info[ 1 ] == "instances" then
+				vis_dynamic = vis_dynamic + 1
 			else
-				if not line2 then
-					box:SetPoint( "TopLeft", m.popup.content, "TopLeft", 0, top - (222 + 5) )
-					line2 = 1
-				else
-					box:SetPoint( "TopLeft", prev_box, "TopRight", 5, 0 )
-					line2 = line2 + 1
-				end
+				vis_small = vis_small + 1
 			end
-			pos = pos + 1
+
+			if not prev_box then
+				box:SetPoint( "TopLeft", m.popup.content, "TopLeft", 0, top )
+			else
+				box:SetPoint( "TopLeft", prev_box, "TopRight", 5, 0 )
+			end
 			prev_box = box
 		end
 	end
 
-	if line2 then
-		if line1 then
-			m.height = 460
-			if line1 < 2 and line2 < 2 and m.db.boxes[ 8 ][ 2 ] then
-				m.width = 1070 - 209 - 209 - 209 - 209
-			elseif line1 < 3 and line2 < 2 then
-				m.width = 1070 - 209 - 209 - 209
-			elseif line1 < 5 and line2 < 3 then
-				if line1 < 4 and (line2 < 2 or m.db.boxes[ 8 ][ 2 ]) then
-					m.width = 1070 - 209 - 209
-				else
-					m.width = 1070 - 209
-				end
-			else
-				m.width = 1070
+	---@type BoxFrame
+	local box = vis_boxes[ vis_small+1 ]
+	if box then
+		if vis_small == 0 then
+			box:SetPoint( "TopLeft", m.popup.content, "TopLeft", 0, top )
+		else
+			box:SetPoint( "TopLeft", m.popup.content, "TopLeft", 0, top - (222 + 5) )
+		end
+	end
+
+	local even = (mod(vis_small, 2) == 0)
+	local inst_big -- = even
+
+	if vis_big == 2 then
+		if vis_small < 5 then inst_big = false else inst_big = even end
+	elseif vis_big == 1 then
+		if vis_small > 3 then inst_big = true elseif vis_small < 4 then inst_big = false end
+	elseif vis_big == 0 then
+		if vis_small < 2 then inst_big = even else inst_big = true end
+	end
+
+	if m.boxes.instances.is_visible then
+		if inst_big then
+			m.boxes.instances:SetWidth( 413 )
+			m.boxes.instances.bg:SetTexture( m.images.instances2.image )
+			m.boxes.instances.bg:SetTexCoord( 0, 1, 0, m.images.instances2.height )
+			for i = 1, 5 do
+				m.boxes.instances[ "inst" .. i .. "_name" ]:SetWidth( 340 )
+			end
+		else
+			m.boxes.instances:SetWidth( 204 )
+			m.boxes.instances.bg:SetTexture( m.images.instances.image )
+			m.boxes.instances.bg:SetTexCoord( 0, 1, 0, m.images.instances.height )
+			for i = 1, 5 do
+				m.boxes.instances[ "inst" .. i .. "_name" ]:SetWidth( 135 )
 			end
 		end
-	else
-		m.height = 460 - 189
-		m.width = 25 + (line1 or 1) * 209
 	end
 
-	if line1 == 4 and line2 == 2 and m.boxes.instances.is_visible then
-		m.boxes.instances:SetWidth( 413 )
-		m.boxes.instances.bg:SetTexture( m.images.instances2.image )
-		m.boxes.instances.bg:SetTexCoord( 0, 1, 0, m.images.instances2.height )
-		for i = 1, 5 do
-			m.boxes.instances[ "inst" .. i .. "_name" ]:SetWidth( 340 )
-		end
+	if vis_small == 0 then
+		m.height = 235
+	elseif vis_big == 0 and vis_dynamic == 0 then
+		m.height= 270
 	else
-		m.boxes.instances:SetWidth( 204 )
-		m.boxes.instances.bg:SetTexture( m.images.instances.image )
-		m.boxes.instances.bg:SetTexCoord( 0, 1, 0, m.images.instances.height )
-		for i = 1, 5 do
-			m.boxes.instances[ "inst" .. i .. "_name" ]:SetWidth( 135 )
-		end
+		m.height= 460
 	end
 
-	m.height = m.height - top
+	m.width = 25 + math.max(vis_small * 209, vis_big * 418 + vis_dynamic*(inst_big and 418 or 209))
 	m.width = m.width - 30 + (m.frame_padding * 2)
-	m.height = m.height - 30 + (m.frame_padding * 2)
+	m.height = m.height - top - 30 + (m.frame_padding * 2)
 
-	local box = m.boxes[ "wbuffs" ]
+	box = m.boxes[ "wbuffs" ]
 	box.set_visibility( m.db.show_world_buffs )
 	if m.db.show_world_buffs then
 		box.sub1:SetWidth( m.width - (m.frame_padding * 3) - 5 )
@@ -1580,7 +1604,7 @@ end
 
 ---@param value string|number
 ---@param t table
----@param extract_field string?
+---@param extract_field string|integer?
 function TurtleCalendar.find( value, t, extract_field )
 	if type( t ) ~= "table" or m.count( t ) == 0 then return nil end
 
