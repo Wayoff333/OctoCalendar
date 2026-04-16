@@ -101,6 +101,7 @@ TurtleCalendar.quests = {
 
 function TurtleCalendar:init()
 	self.utc_offset = m.get_utc_offset()
+	self.reset_pattern = string.gsub( INSTANCE_RESET_SUCCESS, "%%s", "(.+)" )
 	self.timers = {
 		[ "Nordanaar" ] = {
 			[ "raid40" ] = { interval = 7, anchor = m.time_utc( { year = 2025, month = 9, day = 3, hour = 3 } ) },
@@ -263,7 +264,7 @@ end
 
 function TurtleCalendar.events.CHAT_MSG_SYSTEM()
 	if arg1 and arg1 ~= "" then
-		local _, _, zone = string.find( arg1, string.gsub( INSTANCE_RESET_SUCCESS, "%%s", "(.+)" ) )
+		local _, _, zone = string.find( arg1, m.reset_pattern )
 
 		if zone then
 			m.reset_instances()
@@ -1358,7 +1359,7 @@ function TurtleCalendar.reorder()
 		box.set_visibility( box_info[ 2 ] )
 
 		if box_info[ 2 ] then
-			table.insert(vis_boxes, box)
+			table.insert( vis_boxes, box )
 			if box_info[ 1 ] == "bg" or box_info[ 1 ] == "dmf" then
 				vis_big = vis_big + 1
 			elseif box_info[ 1 ] == "instances" then
@@ -1377,7 +1378,7 @@ function TurtleCalendar.reorder()
 	end
 
 	---@type BoxFrame
-	local box = vis_boxes[ vis_small+1 ]
+	local box = vis_boxes[ vis_small + 1 ]
 	if box then
 		if vis_small == 0 then
 			box:SetPoint( "TopLeft", m.popup.content, "TopLeft", 0, top )
@@ -1386,7 +1387,7 @@ function TurtleCalendar.reorder()
 		end
 	end
 
-	local even = (mod(vis_small, 2) == 0)
+	local even = (mod( vis_small, 2 ) == 0)
 	local inst_big -- = even
 
 	if vis_big == 2 then
@@ -1418,12 +1419,12 @@ function TurtleCalendar.reorder()
 	if vis_small == 0 then
 		m.height = 235
 	elseif vis_big == 0 and vis_dynamic == 0 then
-		m.height= 270
+		m.height = 270
 	else
-		m.height= 460
+		m.height = 460
 	end
 
-	m.width = 25 + math.max(vis_small * 209, vis_big * 418 + vis_dynamic*(inst_big and 418 or 209))
+	m.width = 25 + math.max( vis_small * 209, vis_big * 418 + vis_dynamic * (inst_big and 418 or 209) )
 	m.width = m.width - 30 + (m.frame_padding * 2)
 	m.height = m.height - top - 30 + (m.frame_padding * 2)
 
