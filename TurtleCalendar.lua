@@ -186,11 +186,15 @@ function TurtleCalendar.events.PLAYER_LOGIN()
 		table.insert( m.db.boxes, 5, { "tmh", true } )
 	end
 
+
+	-- Save true realm for lockout storage
+	m.lockout_realm = m.realm
+	
 	-- Global DB
 	TurtleCalendarGlobalOptions = TurtleCalendarGlobalOptions or {}
 	m.gdb = TurtleCalendarGlobalOptions
 	m.gdb.lockouts = m.gdb.lockouts or {}
-	if not m.gdb.lockouts[ m.realm ] then m.gdb.lockouts[ m.realm ] = {} end
+	if not m.gdb.lockouts[ m.lockout_realm or m.realm ] then m.gdb.lockouts[ m.lockout_realm or m.realm ] = {} end
 
 	---@class MinimapIcon
 	m.minimap_icon = m.MinimapIcon.new()
@@ -239,9 +243,9 @@ function TurtleCalendar.events.PLAYER_LOGIN()
 
 	-- Fallback to Nordanaar if unknown realm.
 	if m.realm ~= "Nordanaar" and m.realm ~= "Tel'Abim" and m.realm ~= "Ambershire" and m.realm ~= "N'Zoth" then
-		m.info( "Raid timers for " .. m.realm .. " not found, using Nordanaar timers." )
-		m.realm = "Nordanaar"
-	end
+    m.info( "Raid timers for " .. m.realm .. " not found, using Nordanaar timers." )
+    m.realm = "Nordanaar"
+end
 end
 
 function TurtleCalendar.events.PLAYER_ENTERING_WORLD()
@@ -290,17 +294,17 @@ function TurtleCalendar.events.UPDATE_INSTANCE_INFO()
 	m.instances = {}
 	if (savedInstances > 0) then
 		for i = 1, savedInstances do
-			instanceName, instanceID, instanceReset = GetSavedInstanceInfo( i )
-			m.instances[ instanceName ] = {
-				name = instanceName,
-				id = instanceID,
-				reset = instanceReset,
-				timestamp = time()
-			}
+			instanceName, instanceReset, instanceID = GetSavedInstanceInfo( i )
+m.instances[ instanceName ] = {
+    name = instanceName,
+    id = instanceID,
+    reset = instanceReset,
+    timestamp = time()
+}
 		end
 	end
 
-	m.gdb.lockouts[ m.realm ][ m.player ] = m.instances
+	m.gdb.lockouts[ m.lockout_realm or m.realm ][ m.player ] = m.instances
 end
 
 function TurtleCalendar.events.PLAYER_REGEN_DISABLED()
