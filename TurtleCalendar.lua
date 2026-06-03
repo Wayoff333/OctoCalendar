@@ -113,16 +113,16 @@ function TurtleCalendar:init()
 			[ "bg" ] = { interval = 1, anchor = m.time_utc( { year = 2025, month = 9, day = 0, hour = 23 } ) },
 			[ "dmf" ] = { interval = 7, anchor = m.time_utc( { year = 2025, month = 8, day = 30, hour = 23 } ) }
 		},
-		[ "Tel'Abim" ] = {
-			[ "raid40" ] = { interval = 7, anchor = m.time_utc( { year = 2025, month = 9, day = 4, hour = 3 } ) },
-			[ "ony" ] = { interval = 5, anchor = m.time_utc( { year = 2025, month = 9, day = 0, hour = 3 } ) },
-			[ "kara" ] = { interval = 5, anchor = m.time_utc( { year = 2025, month = 9, day = 0, hour = 3 } ) },
-			[ "zg" ] = { interval = 3, anchor = m.time_utc( { year = 2025, month = 8, day = 28, hour = 3 } ) },
-			[ "tmh" ] = { interval = 7, anchor = m.time_utc( { year = 2025, month = 8, day = 27, hour = 3 } ) },
-			[ "eom" ] = { interval = 14, anchor = m.time_utc( { year = 2025, month = 4, day = 7, hour = 23 } ) },
-			[ "bg" ] = { interval = 1, anchor = m.time_utc( { year = 2025, month = 9, day = 0, hour = 23 } ) },
-			[ "dmf" ] = { interval = 7, anchor = m.time_utc( { year = 2025, month = 8, day = 30, hour = 23 } ) }
-		},
+		[ "N'Zoth" ] = {
+    [ "raid40" ] = { interval = 7, anchor = m.time_utc( { year = 2025, month = 9, day = 3, hour = 3 } ) },
+    [ "ony" ]   = { interval = 5, anchor = m.time_utc( { year = 2025, month = 9, day = 1, hour = 3 } ) },
+    [ "kara" ]  = { interval = 5, anchor = m.time_utc( { year = 2025, month = 9, day = 2, hour = 3 } ) },
+    [ "zg" ]    = { interval = 3, anchor = m.time_utc( { year = 2025, month = 8, day = 30, hour = 3 } ) },
+    [ "tmh" ]   = { interval = 7, anchor = m.time_utc( { year = 2025, month = 8, day = 29, hour = 3 } ) },
+    [ "eom" ]   = { interval = 14, anchor = m.time_utc( { year = 2025, month = 4, day = 7, hour = 23 } ) },
+    [ "bg" ]    = { interval = 1, anchor = m.time_utc( { year = 2025, month = 9, day = 0, hour = 23 } ) },
+    [ "dmf" ]   = { interval = 7, anchor = m.time_utc( { year = 2025, month = 8, day = 30, hour = 23 } ) }
+},
 		[ "Ambershire" ] = {
 			[ "raid40" ] = { interval = 7, anchor = m.time_utc( { year = 2025, month = 9, day = 3, hour = 3 } ) },
 			[ "ony" ] = { interval = 5, anchor = m.time_utc( { year = 2025, month = 9, day = 1, hour = 3 } ) },
@@ -238,7 +238,7 @@ function TurtleCalendar.events.PLAYER_LOGIN()
 	m.info( string.format( "(v%s) Loaded", m.version ) )
 
 	-- Fallback to Nordanaar if unknown realm.
-	if m.realm ~= "Nordanaar" and m.realm ~= "Tel'Abim" and m.realm ~= "Ambershire" then
+	if m.realm ~= "Nordanaar" and m.realm ~= "Tel'Abim" and m.realm ~= "Ambershire" and m.realm ~= "N'Zoth" then
 		m.info( "Raid timers for " .. m.realm .. " not found, using Nordanaar timers." )
 		m.realm = "Nordanaar"
 	end
@@ -823,7 +823,7 @@ function TurtleCalendar.create_frame()
 
 	local title = title_bar:CreateFontString( nil, "OVERLAY", "GameFontHighlight" )
 	title:SetPoint( "Left", title_bar, "Left", 7, 1 )
-	title:SetText( m.T[ "Turtle Calendar v" ] .. m.version )
+	title:SetText( m.T[ "Octowow Calendar v" ] .. m.version )
 
 	-- Character dropdown
 	local chars = 0
